@@ -18,7 +18,7 @@ export class User {
     default: UserRole.USER,
   })
   role: string;
-  @Column({ length: 50 })
+  @Column({ length: 50, unique: true })
   username: string;
   @Column({ length: 256 })
   password: string;

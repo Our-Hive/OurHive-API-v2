@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { OnboardingRequestDto } from '../dtos/onboarding.request.dto';
 import { compare, hash } from 'bcrypt';
 import { UserService } from 'src/modules/user/services/user.service';
@@ -18,6 +18,9 @@ export class AuthService {
   async onboarding(
     onboardingDto: OnboardingRequestDto,
   ): Promise<OnboardingResponseDto> {
+    if (onboardingDto.password !== onboardingDto.passwordConfirmation) {
+      throw new UnauthorizedException('Password confirmation does not match');
+    }
     // Encrypt password
     const encryptedPassword = await hash(onboardingDto.password, 10);
     // Replace password with encrypted password

@@ -39,6 +39,16 @@ export class OnboardingRequestDto {
   @MinLength(8)
   password: string;
 
+  @ApiProperty({
+    example: 'password',
+    required: true,
+    description: 'User password',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  passwordConfirmation: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;
