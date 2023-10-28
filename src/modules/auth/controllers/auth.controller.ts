@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { LoginRequestDto } from '../dtos/login.request.dto';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,8 +19,9 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('local'))
+  @ApiBody({ type: LoginRequestDto })
   @Post('login')
   login(@Req() req: Request) {
-    return this.authService.generateJWT(req.user as LoginRequestDto);
+    return this.authService.generateJWT(req.user as User);
   }
 }
