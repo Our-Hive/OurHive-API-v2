@@ -1,20 +1,25 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { OnboardingDto } from '../dtos/onboarding.dto';
+import { OnboardingRequestDto } from '../dtos/onboarding.request.dto';
+import { AuthService } from '../services/auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { LoginRequestDto } from '../dtos/login.request.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor() {}
+  constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: OnboardingDto })
+  @ApiBody({ type: OnboardingRequestDto })
   @Post('onboarding')
-  onboarding(@Body() onboardingDto: OnboardingDto) {
-    return `onboarding ${onboardingDto.email} ${onboardingDto.password} ${onboardingDto.username}`;
+  async onboarding(@Body() onboardingDto: OnboardingRequestDto) {
+    return await this.authService.onboarding(onboardingDto);
   }
 
+  @UseGuards(AuthGuard('local'))
   @Post('login')
-  login() {
-    return 'login';
+  login(@Req() req: Request) {
+    return this.authService.generateJWT(req.user as LoginRequestDto);
   }
 }
