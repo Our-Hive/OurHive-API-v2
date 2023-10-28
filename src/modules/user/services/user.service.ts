@@ -30,6 +30,22 @@ export class UserService {
     }
   }
 
+  async findByUsername(username: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({
+        where: { username },
+      });
+
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async create(user: OnboardingRequestDto): Promise<User> {
     try {
       const newUser = await this.userRepository.save(user);

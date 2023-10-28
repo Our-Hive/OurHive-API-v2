@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { OnboardingRequestDto } from '../dtos/onboarding.request.dto';
 import { compare, hash } from 'bcrypt';
 import { UserService } from 'src/modules/user/services/user.service';
 import { OnboardingResponseDto } from '../dtos/onboarding.response.dto';
 import { JwtService } from '@nestjs/jwt';
-import { LoginRequestDto } from '../dtos/login.request.dto';
 import { PayloadTokenDto } from '../models/token.model';
 import { LoginResponseDto } from '../dtos/login.response.dto';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +21,22 @@ export class AuthService {
     if (onboardingDto.password !== onboardingDto.passwordConfirmation) {
       throw new UnauthorizedException('Password confirmation does not match');
     }
+    // Check if email already exists
+    const emailExists = await this.userService.findByEmail(onboardingDto.email);
+
+    if (emailExists) {
+      throw new UnauthorizedException('Email already exists');
+    }
+
+    // Check if username already exists
+    const usernameExists = await this.userService.findByUsername(
+      onboardingDto.username,
+    );
+
+    if (usernameExists) {
+      throw new UnauthorizedException('Username already exists');
+    }
+
     // Encrypt password
     const encryptedPassword = await hash(onboardingDto.password, 10);
     // Replace password with encrypted password
@@ -35,7 +51,7 @@ export class AuthService {
     };
   }
 
-  generateJWT(user: LoginRequestDto): LoginResponseDto {
+  generateJWT(user: User): LoginResponseDto {
     const payload: PayloadTokenDto = { role: user.role, sub: user.id };
 
     return {
