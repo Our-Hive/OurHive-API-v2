@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { OnboardingDto } from '../dtos/onboarding.dto';
+import { OnboardingRequestDto } from '../dtos/onboarding.request.dto';
 import { AuthService } from '../services/auth.service';
 
 @ApiTags('auth')
@@ -8,10 +8,10 @@ import { AuthService } from '../services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiBody({ type: OnboardingDto })
+  @ApiBody({ type: OnboardingRequestDto })
   @Post('onboarding')
-  onboarding(@Body() onboardingDto: OnboardingDto) {
-    return this.authService.onboarding(onboardingDto);
+  async onboarding(@Body() onboardingDto: OnboardingRequestDto) {
+    return await this.authService.onboarding(onboardingDto);
   }
 
   @Post('login')

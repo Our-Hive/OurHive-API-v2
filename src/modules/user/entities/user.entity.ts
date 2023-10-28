@@ -20,11 +20,11 @@ export class User {
   role: string;
   @Column({ length: 50 })
   username: string;
-  @Column({ length: 50 })
+  @Column({ length: 256 })
   password: string;
-  @Column({ length: 50 })
+  @Column({ length: 50, unique: true })
   email: string;
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
   @CreateDateColumn()
   createdAt: Date;
