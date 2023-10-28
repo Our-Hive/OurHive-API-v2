@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, MinLength } from 'class-validator';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 export class OnboardingDto {
   @ApiProperty({
@@ -26,4 +26,19 @@ export class OnboardingDto {
   })
   @MinLength(3)
   username: string;
+
+  @ApiProperty({
+    description: 'The user full name',
+    type: String,
+    example: 'John Doe',
+  })
+  @IsString()
+  fullName: string;
+
+  @ApiProperty({
+    description: 'The user student id',
+    type: String,
+    example: '20211578055',
+  })
+  studentId: string;
 }
