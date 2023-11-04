@@ -7,7 +7,7 @@ import { getDatabaseConfig } from './configs/dbConfig';
 import configuration from './configs/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { RecordDeModule } from './modules/record_de/record_de.module';
-
+import { RecordDeService } from './services/record-de.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +21,6 @@ import { RecordDeModule } from './modules/record_de/record_de.module';
     RecordDeModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [RecordDeService],
 })
 export class AppModule {}
