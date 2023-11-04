@@ -6,8 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDatabaseConfig } from './configs/dbConfig';
 import configuration from './configs/configuration';
 import { ConfigModule } from '@nestjs/config';
-import { RecordDeModule } from './modules/record_de/record_de.module';
-import { RecordDeService } from './services/record-de.service';
+import { DailyRecordModule } from './modules/daily-record/daily-record.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,9 +17,9 @@ import { RecordDeService } from './services/record-de.service';
     TypeOrmModule.forRoot(getDatabaseConfig()),
     AuthModule,
     UserModule,
-    RecordDeModule,
+    DailyRecordModule,
   ],
   controllers: [AppController],
-  providers: [RecordDeService],
+  providers: [],
 })
 export class AppModule {}
