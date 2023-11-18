@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { DailyRecordService } from '../services/daily-record.service';
 import { CreateDailyRecordDto } from '../dtos/createDaily.dto';
+import { UpdateDailyRecord } from '../dtos/updateDaily.dto';
 
 @Controller('emotional-record')
 export class EmotionalRecordController {
@@ -18,6 +27,14 @@ export class EmotionalRecordController {
   @Post('daily')
   newDailyRecord(@Body() newDaily: CreateDailyRecordDto) {
     return this.dailyService.createDailyRecord(newDaily);
+  }
+
+  @Patch('daily/:id')
+  updateDailyRecord(
+    @Param('id') id: number,
+    @Body() updateDaily: UpdateDailyRecord,
+  ) {
+    return this.dailyService.updateDailyRecord(id, updateDaily);
   }
 
   @Delete('daily/:id')
