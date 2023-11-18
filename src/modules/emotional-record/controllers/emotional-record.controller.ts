@@ -32,7 +32,7 @@ export class EmotionalRecordController {
   @Patch('daily/:id')
   updateDailyRecord(
     @Param('id') id: number,
-    @Body() updateDaily: UpdateDailyRecord,
+    @Body() updateDaily: Partial<UpdateDailyRecord>,
   ) {
     return this.dailyService.updateDailyRecord(id, updateDaily);
   }

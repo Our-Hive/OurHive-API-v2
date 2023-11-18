@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateDailyRecordDto } from '../dtos/createDaily.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DailyRecord } from '../entities/daily-record.entity';
@@ -41,20 +45,26 @@ export class DailyRecordService {
     }
   }
 
-  async updateDailyRecord(id: number, updateRecord: UpdateDailyRecord) {
+  async updateDailyRecord(
+    id: number,
+    updateRecord: Partial<UpdateDailyRecord>,
+  ) {
     const record = await this.getDailyRecord(id);
-    if (!record) {
-      throw new NotFoundException('Record not found');
+
+    const updatedRecord = Object.assign(record, updateRecord);
+
+    const savedRecord = await this.dailyRepository.save(updatedRecord);
+
+    if (!savedRecord) {
+      throw new InternalServerErrorException('Error updating record');
     }
-    await this.dailyRepository.update(id, updateRecord);
-    return await this.getDailyRecord(id);
+
+    return savedRecord;
   }
 
   async deleteDailyRecord(id: number): Promise<boolean> {
-    const record = await this.getDailyRecord(id);
+    await this.getDailyRecord(id); // throws error if not found
     const result = await this.dailyRepository.delete(id);
-    console.log(result);
-    console.log(record);
     return result.affected > 0;
   }
 }
