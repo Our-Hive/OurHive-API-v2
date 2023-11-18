@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from './enums/role.enum';
+import { DailyRecord } from 'src/modules/daily-record/entities/daily-record.entity';
 
 @Entity('users')
 export class User {
@@ -32,4 +34,6 @@ export class User {
   updatedAt: Date;
   @DeleteDateColumn()
   deletedAt: Date;
+  @OneToMany(() => DailyRecord, (dailyrecord) => dailyrecord.user_id)
+  dailyRecords: DailyRecord[];
 }
