@@ -24,4 +24,9 @@ export class EmotionalRecordController {
   deleteDailyRecord(@Param('id') id: number) {
     return this.dailyService.deleteDailyRecord(id);
   }
+
+  @Get('transcendental')
+  getTranscendentals() {
+    return 'Transcendentals';
+  }
 }
