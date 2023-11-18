@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDatabaseConfig } from './configs/dbConfig';
 import configuration from './configs/configuration';
 import { ConfigModule } from '@nestjs/config';
-import { DailyRecordModule } from './modules/daily-record/daily-record.module';
+import { EmotionalRecordModule } from './modules/emotional-record/emotional-record.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,7 +17,7 @@ import { DailyRecordModule } from './modules/daily-record/daily-record.module';
     TypeOrmModule.forRoot(getDatabaseConfig()),
     AuthModule,
     UserModule,
-    DailyRecordModule,
+    EmotionalRecordModule,
   ],
   controllers: [AppController],
   providers: [],

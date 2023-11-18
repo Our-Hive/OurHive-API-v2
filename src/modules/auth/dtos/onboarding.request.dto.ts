@@ -48,7 +48,11 @@ export class OnboardingRequestDto {
   @IsNotEmpty()
   @MinLength(8)
   passwordConfirmation: string;
-
+  @ApiProperty({
+    example: 'example@gmail.com',
+    required: true,
+    description: 'User email',
+  })
   @IsEmail()
   @IsNotEmpty()
   email: string;
