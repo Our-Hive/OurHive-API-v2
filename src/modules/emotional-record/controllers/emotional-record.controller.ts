@@ -11,11 +11,17 @@ import { DailyRecordService } from '../services/daily-record.service';
 import { CreateDailyRecordDto } from '../dtos/createDaily.dto';
 import { UpdateDailyRecord } from '../dtos/updateDaily.dto';
 import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger';
+import { TranscendentalRecordService } from '../services/transcendental-record.service';
+import { CreateTranscendentalRecordDto } from '../dtos/createTranscendental.request.dto';
+import { UpdateTranscendentalRecordDto } from '../dtos/updateTrascendental.request.dto';
 
 @ApiTags('Emotional Record')
 @Controller('emotional-record')
 export class EmotionalRecordController {
-  constructor(private readonly dailyService: DailyRecordService) {}
+  constructor(
+    private readonly dailyService: DailyRecordService,
+    private readonly transcendentalService: TranscendentalRecordService,
+  ) {}
 
   @ApiOperation({ summary: 'Get all daily records' })
   @Get('daily')
@@ -53,5 +59,50 @@ export class EmotionalRecordController {
   @ApiParam({ name: 'id', type: 'number' })
   deleteDailyRecord(@Param('id') id: number) {
     return this.dailyService.deleteDailyRecord(id);
+  }
+
+  @ApiOperation({ summary: 'Get all transcendental records' })
+  @Get('transcendental')
+  getTranscendentals() {
+    return this.transcendentalService.getAllTranscendentalRecords();
+  }
+
+  @ApiOperation({ summary: 'Get a transcendental record by ID' })
+  @Get('transcendental/:id')
+  @ApiParam({ name: 'id', type: 'number' })
+  getTranscendental(@Param('id') id: number) {
+    return this.transcendentalService.getTranscendentalRecord(id);
+  }
+
+  @ApiOperation({ summary: 'Create a new transcendental record' })
+  @Post('transcendental')
+  @ApiBody({ type: CreateTranscendentalRecordDto })
+  newTranscendentalRecord(
+    @Body() newTranscendental: CreateTranscendentalRecordDto,
+  ) {
+    return this.transcendentalService.createTranscendentalRecord(
+      newTranscendental,
+    );
+  }
+
+  @ApiOperation({ summary: 'Update a transcendental record by ID' })
+  @Patch('transcendental/:id')
+  @ApiParam({ name: 'id', type: 'number' })
+  @ApiBody({ type: UpdateTranscendentalRecordDto })
+  updateTranscendentalRecord(
+    @Param('id') id: number,
+    @Body() updateTranscendental: Partial<UpdateTranscendentalRecordDto>,
+  ) {
+    return this.transcendentalService.updateTranscendentalRecord(
+      id,
+      updateTranscendental,
+    );
+  }
+
+  @ApiOperation({ summary: 'Delete a transcendental record by ID' })
+  @Delete('transcendental/:id')
+  @ApiParam({ name: 'id', type: 'number' })
+  deleteTranscendentalRecord(@Param('id') id: number) {
+    return this.transcendentalService.deleteTranscendentalRecord(id);
   }
 }
