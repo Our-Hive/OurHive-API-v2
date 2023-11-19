@@ -24,13 +24,26 @@ export class TranscendentalRecordService {
     return newRecord;
   }
 
-  async getAllTranscendentalRecords() {
-    return await this.trascententalRepository.find();
+  async getAllTranscendentalRecords(): Promise<TranscendentalRecord[]> {
+    const records = await this.trascententalRepository.find();
+    return records.map((record) => {
+      return {
+        ...record,
+        type: 'TranscendentalRecord', // Add the type property to each object
+      };
+    });
   }
 
   async getAllTranscendentalRecordsByUser(userId: number) {
-    return await this.trascententalRepository.find({
+    const records = await this.trascententalRepository.find({
       where: { user_id: userId },
+    });
+
+    return records.map((record) => {
+      return {
+        ...record,
+        type: 'TranscendentalRecord', // Add the type property to each object
+      };
     });
   }
 

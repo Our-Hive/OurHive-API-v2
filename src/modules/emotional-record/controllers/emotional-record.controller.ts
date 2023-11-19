@@ -14,14 +14,22 @@ import { ApiTags, ApiOperation, ApiBody, ApiParam } from '@nestjs/swagger';
 import { TranscendentalRecordService } from '../services/transcendental-record.service';
 import { CreateTranscendentalRecordDto } from '../dtos/createTranscendental.request.dto';
 import { UpdateTranscendentalRecordDto } from '../dtos/updateTrascendental.request.dto';
+import { RecordService } from '../services/record.service';
 
 @ApiTags('Emotional Record')
 @Controller('emotional-record')
 export class EmotionalRecordController {
   constructor(
+    private readonly recordService: RecordService,
     private readonly dailyService: DailyRecordService,
     private readonly transcendentalService: TranscendentalRecordService,
   ) {}
+
+  @ApiOperation({ summary: 'Get all records' })
+  @Get()
+  getAllRecords() {
+    return this.recordService.getAllRecords();
+  }
 
   @ApiOperation({ summary: 'Get all daily records' })
   @Get('daily')
