@@ -4,7 +4,7 @@ import { UserService } from '../services/user.service';
 
 @ApiTags('User')
 @Controller('user')
-export class UserControllerTsController {
+export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: 'Get user by ID' })
