@@ -2,11 +2,14 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { OnboardingRequestDto } from 'src/modules/auth/dtos/onboarding.request.dto';
+import { DeactiveAccountRequestDto } from 'src/modules/auth/dtos/deactivate.request.dto';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -27,6 +30,7 @@ export class UserService {
       return user;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 
@@ -59,6 +63,7 @@ export class UserService {
       return user;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 
@@ -73,17 +78,35 @@ export class UserService {
       return newUser;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 
-  async deactivate(id: number): Promise<void> {
+  async deactivate(id: number, user: DeactiveAccountRequestDto): Promise<void> {
     try {
-      const user = await this.findById(id);
+      const existingUser = await this.findById(id);
 
-      user.isActive = false;
+      if (user.password !== user.passwordConfirmation) {
+        throw new UnauthorizedException(
+          'Password and password confirmation do not match',
+        );
+      }
+
+      // Compare password
+      const passwordMatch = await compare(user.password, existingUser.password);
+
+      if (!passwordMatch) {
+        throw new UnauthorizedException('Password does not match');
+      }
+
+      //Update user status
+      existingUser.isActive = false;
+      await this.userRepository.save(existingUser);
+
       await this.userRepository.softDelete(id);
     } catch (error) {
       console.log(error);
+      throw error;
     }
   }
 }
