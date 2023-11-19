@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { OnboardingRequestDto } from 'src/modules/auth/dtos/onboarding.request.dto';
-import { UserResponse } from '../dtos/getUserById.response.dto';
 
 @Injectable()
 export class UserService {
@@ -31,7 +30,7 @@ export class UserService {
     }
   }
 
-  async findById(id: number): Promise<UserResponse> {
+  async findById(id: number): Promise<User> {
     try {
       const user = await this.userRepository.findOne({
         where: { id },
@@ -41,10 +40,7 @@ export class UserService {
         throw new NotFoundException('User not found');
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-
-      return result;
+      return user;
     } catch (error) {
       console.log(error);
     }
@@ -71,10 +67,21 @@ export class UserService {
       const newUser = await this.userRepository.save(user);
 
       if (!newUser) {
-        throw new InternalServerErrorException('user not created');
+        throw new InternalServerErrorException('User not created');
       }
 
       return newUser;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async deactivate(id: number): Promise<void> {
+    try {
+      const user = await this.findById(id);
+
+      user.isActive = false;
+      await this.userRepository.softDelete(id);
     } catch (error) {
       console.log(error);
     }
