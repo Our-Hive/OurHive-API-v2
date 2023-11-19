@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { OnboardingRequestDto } from 'src/modules/auth/dtos/onboarding.request.dto';
+import { UserResponse } from '../dtos/getUserById.response.dto';
 
 @Injectable()
 export class UserService {
@@ -30,7 +31,7 @@ export class UserService {
     }
   }
 
-  async findById(id: number): Promise<User> {
+  async findById(id: number): Promise<UserResponse> {
     try {
       const user = await this.userRepository.findOne({
         where: { id },
@@ -40,7 +41,10 @@ export class UserService {
         throw new NotFoundException('User not found');
       }
 
-      return user;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+
+      return result;
     } catch (error) {
       console.log(error);
     }
