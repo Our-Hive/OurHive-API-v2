@@ -48,6 +48,7 @@ export class AuthService {
       role: createdUser.role,
       username: createdUser.username,
       email: createdUser.email,
+      access_token: this.generateJWT(createdUser).access_token,
     };
   }
 
@@ -65,7 +66,6 @@ export class AuthService {
     if (!user) {
       return null;
     }
-
     // Compare password
     const passwordMatch = await compare(password, user.password);
 
