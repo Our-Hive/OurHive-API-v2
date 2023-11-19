@@ -48,6 +48,7 @@ export class AuthService {
       role: createdUser.role,
       username: createdUser.username,
       email: createdUser.email,
+      access_token: this.generateJWT(createdUser).access_token,
     };
   }
 
