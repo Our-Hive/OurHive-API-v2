@@ -13,18 +13,28 @@ import {
 export class DailyRecord {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column('varchar', { length: 255 })
-  emotion: string;
+
+  @Column({ length: 255 })
+  primaryEmotion: string;
+
+  @Column({ length: 255, nullable: true })
+  secondaryEmotion: string;
+
   @Column('varchar', { length: 30 })
   title: string;
+
   @Column('varchar', { length: 255 })
   description: string;
+
   @CreateDateColumn()
   created_at: Date;
+
   @UpdateDateColumn()
   updated_at: Date;
+
   @DeleteDateColumn()
   deleted_at: Date;
+
   @ManyToOne(() => User, (user) => user.dailyRecords)
   user: User;
 }

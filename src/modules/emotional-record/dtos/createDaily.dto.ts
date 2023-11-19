@@ -3,14 +3,23 @@ import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateDailyRecordDto {
   @ApiProperty({
-    example: 'happy',
+    example: 'Sad',
     required: true,
     description: 'Daily user emotion',
   })
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  emotion: string;
+  primaryEmotion: string;
+
+  @ApiProperty({
+    example: 'Lonely',
+    required: true,
+    description: 'The second emotion associated with the record',
+  })
+  @IsNotEmpty()
+  @IsString()
+  secondaryEmotion: string;
 
   @ApiProperty({
     example: 'My first daily record',
