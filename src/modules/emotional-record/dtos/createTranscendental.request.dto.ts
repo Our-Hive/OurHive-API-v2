@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateTranscendentalRecordDto {
   @ApiProperty({
@@ -51,12 +51,4 @@ export class CreateTranscendentalRecordDto {
   @IsString()
   @MaxLength(30)
   companion: string;
-
-  @ApiProperty({
-    example: '1',
-    description: 'The user id of the record',
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  user_id: number;
 }

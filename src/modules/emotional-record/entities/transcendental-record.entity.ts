@@ -41,5 +41,5 @@ export class TranscendentalRecord {
   deleted_at: Date;
 
   @ManyToOne(() => User, (user) => user.transcendentalRecords)
-  user_id: number;
+  user: User;
 }

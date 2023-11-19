@@ -16,8 +16,12 @@ export class TranscendentalRecordService {
     private readonly trascententalRepository: Repository<TranscendentalRecord>,
   ) {}
 
-  async createTranscendentalRecord(record: CreateTranscendentalRecordDto) {
-    const newRecord = await this.trascententalRepository.save(record);
+  async createTranscendentalRecord(
+    record: CreateTranscendentalRecordDto,
+    loggedUserId: number,
+  ) {
+    const recordWithUser = { ...record, user: { id: loggedUserId } };
+    const newRecord = await this.trascententalRepository.save(recordWithUser);
     if (!newRecord) {
       throw new InternalServerErrorException('Error creating record');
     }
@@ -36,7 +40,11 @@ export class TranscendentalRecordService {
 
   async getAllTranscendentalRecordsByUser(userId: number) {
     const records = await this.trascententalRepository.find({
-      where: { user_id: userId },
+      where: {
+        user: {
+          id: userId,
+        },
+      },
     });
 
     return records.map((record) => {
@@ -59,11 +67,32 @@ export class TranscendentalRecordService {
     return record;
   }
 
+  async getTranscendentalRecordByUser(recordId: number, userId: number) {
+    const record = await this.trascententalRepository.findOne({
+      where: {
+        id: recordId,
+        user: {
+          id: userId,
+        },
+      },
+    });
+
+    if (!record) {
+      throw new NotFoundException('Record not found');
+    }
+
+    return record;
+  }
+
   async updateTranscendentalRecord(
     recordId: number,
     updateData: Partial<UpdateTranscendentalRecordDto>,
+    loggedUserId: number,
   ) {
-    const record = await this.getTranscendentalRecord(recordId);
+    const record = await this.getTranscendentalRecordByUser(
+      recordId,
+      loggedUserId,
+    );
     const updatedRecord = Object.assign(record, updateData);
     const savedRecord = await this.trascententalRepository.save(updatedRecord);
 
@@ -74,8 +103,8 @@ export class TranscendentalRecordService {
     return savedRecord;
   }
 
-  async deleteTranscendentalRecord(recordId: number) {
-    await this.getTranscendentalRecord(recordId);
+  async deleteTranscendentalRecord(recordId: number, loggedUserId: number) {
+    await this.getTranscendentalRecordByUser(recordId, loggedUserId);
 
     const result = await this.trascententalRepository.delete(recordId);
     return result.affected > 0;

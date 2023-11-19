@@ -12,6 +12,7 @@ import { DeactiveAccountRequestDto } from 'src/modules/auth/dtos/deactivate.requ
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt.guard';
 import { Request } from 'express';
 import { PayloadTokenDto } from 'src/modules/auth/models/token.model';
+
 @UseGuards(JwtAuthGuard)
 @ApiTags('User')
 @ApiBearerAuth()

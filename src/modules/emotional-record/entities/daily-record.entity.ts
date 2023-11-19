@@ -26,5 +26,5 @@ export class DailyRecord {
   @DeleteDateColumn()
   deleted_at: Date;
   @ManyToOne(() => User, (user) => user.dailyRecords)
-  user_id: number;
+  user: User;
 }

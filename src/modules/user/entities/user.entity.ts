@@ -44,12 +44,12 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => DailyRecord, (dailyrecord) => dailyrecord.user_id)
+  @OneToMany(() => DailyRecord, (dailyrecord) => dailyrecord.user)
   dailyRecords: DailyRecord[];
 
   @OneToMany(
     () => TranscendentalRecord,
-    (transcendentalRecord) => transcendentalRecord.user_id,
+    (transcendentalRecord) => transcendentalRecord.user,
   )
   transcendentalRecords: TranscendentalRecord[];
 }

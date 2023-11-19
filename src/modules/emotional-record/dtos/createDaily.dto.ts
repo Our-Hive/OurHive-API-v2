@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateDailyRecordDto {
   @ApiProperty({
@@ -37,14 +31,4 @@ export class CreateDailyRecordDto {
   @IsNotEmpty()
   @MinLength(8)
   description: string;
-
-  @ApiProperty({
-    example: 1,
-    required: true,
-    description: 'User id',
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
-  user_id: number;
 }
