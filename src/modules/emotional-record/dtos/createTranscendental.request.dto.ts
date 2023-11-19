@@ -3,14 +3,28 @@ import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateTranscendentalRecordDto {
   @ApiProperty({
-    example: 'Happy',
+    example: 'Sad',
     description: 'The emotion associated with the record',
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
-  emotion: string;
+  primaryEmotion: string;
 
-  @ApiProperty({ example: 'Title', description: 'The title of the record' })
+  @ApiProperty({
+    example: 'Lonely',
+    description: 'The second emotion associated with the record',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsString()
+  secondaryEmotion: string;
+
+  @ApiProperty({
+    example: 'Title',
+    description: 'The title of the record',
+    required: true,
+  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(30)
@@ -19,6 +33,7 @@ export class CreateTranscendentalRecordDto {
   @ApiProperty({
     example: 'Description',
     description: 'The description of the record',
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
@@ -28,6 +43,7 @@ export class CreateTranscendentalRecordDto {
   @ApiProperty({
     example: 'Location',
     description: 'The location of the record',
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
@@ -37,6 +53,7 @@ export class CreateTranscendentalRecordDto {
   @ApiProperty({
     example: 'Activity',
     description: 'The activity associated with the record',
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
@@ -46,6 +63,7 @@ export class CreateTranscendentalRecordDto {
   @ApiProperty({
     example: 'Companion',
     description: 'The companion of the record',
+    required: true,
   })
   @IsNotEmpty()
   @IsString()
