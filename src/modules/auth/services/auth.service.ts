@@ -66,7 +66,6 @@ export class AuthService {
     if (!user) {
       return null;
     }
-
     // Compare password
     const passwordMatch = await compare(password, user.password);
 

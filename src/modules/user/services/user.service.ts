@@ -24,7 +24,7 @@ export class UserService {
       });
 
       if (!user) {
-        throw new NotFoundException('User not found');
+        return null;
       }
 
       return user;
@@ -57,7 +57,7 @@ export class UserService {
       });
 
       if (!user) {
-        throw new NotFoundException('User not found');
+        return null;
       }
 
       return user;
