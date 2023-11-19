@@ -20,6 +20,5 @@ import { EmotionalRecordModule } from './modules/emotional-record/emotional-reco
     EmotionalRecordModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {}

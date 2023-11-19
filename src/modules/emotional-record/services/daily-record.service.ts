@@ -17,7 +17,27 @@ export class DailyRecordService {
   ) {}
 
   async getAllDailyRecords(): Promise<DailyRecord[]> {
-    return await this.dailyRepository.find();
+    const records = await this.dailyRepository.find();
+
+    return records.map((record) => {
+      return {
+        ...record,
+        type: 'DailyRecord', // Add the type property to each object
+      };
+    });
+  }
+
+  async getAllDailyRecordsByUser(userId: number) {
+    const records = await this.dailyRepository.find({
+      where: { user_id: userId },
+    });
+
+    return records.map((record) => {
+      return {
+        ...record,
+        type: 'DailyRecord', // Add the type property to each object
+      };
+    });
   }
 
   async getDailyRecord(id: number): Promise<DailyRecord> {
