@@ -20,9 +20,6 @@ export class DailyRecord {
   @Column({ length: 255, nullable: true })
   secondaryEmotion: string;
 
-  @Column('varchar', { length: 30 })
-  title: string;
-
   @Column('varchar', { length: 255 })
   description: string;
 

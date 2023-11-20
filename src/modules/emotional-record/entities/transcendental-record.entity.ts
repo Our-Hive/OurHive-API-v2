@@ -19,9 +19,6 @@ export class TranscendentalRecord {
   @Column({ length: 255, nullable: true })
   secondaryEmotion: string;
 
-  @Column({ length: 30, nullable: false })
-  title: string;
-
   @Column({ length: 255, nullable: false })
   description: string;
 

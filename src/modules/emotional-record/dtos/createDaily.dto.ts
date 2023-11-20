@@ -22,16 +22,6 @@ export class CreateDailyRecordDto {
   secondaryEmotion: string;
 
   @ApiProperty({
-    example: 'My first daily record',
-    required: true,
-    description: 'Daily record title',
-  })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(3)
-  title: string;
-
-  @ApiProperty({
     example: 'Today I feel happy because I passed my exam',
     required: true,
     description: 'Daily record description',

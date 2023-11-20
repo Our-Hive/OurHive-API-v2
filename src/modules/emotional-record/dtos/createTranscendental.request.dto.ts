@@ -21,16 +21,6 @@ export class CreateTranscendentalRecordDto {
   secondaryEmotion: string;
 
   @ApiProperty({
-    example: 'Title',
-    description: 'The title of the record',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(30)
-  title: string;
-
-  @ApiProperty({
     example: 'Description',
     description: 'The description of the record',
     required: true,
