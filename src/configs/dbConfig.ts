@@ -14,5 +14,14 @@ export function getDatabaseConfig(): TypeOrmModuleOptions {
     database: process.env.DB_DATABASE,
     entities: [path.join(__dirname, '..') + '/**/*.entity{.ts,.js}'],
     synchronize: true,
+    ssl: process.env.POSTGRES_SSL === 'true',
+    extra: {
+      ssl:
+        process.env.POSTGRES_SSL === 'true'
+          ? {
+              rejectUnauthorized: false,
+            }
+          : null,
+    },
   };
 }
