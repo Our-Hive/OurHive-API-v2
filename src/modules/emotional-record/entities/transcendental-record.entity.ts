@@ -14,10 +14,10 @@ export class TranscendentalRecord {
   id: number;
 
   @Column({ length: 255 })
-  emotion: string;
+  primaryEmotion: string;
 
-  @Column({ length: 30, nullable: false })
-  title: string;
+  @Column({ length: 255, nullable: true })
+  secondaryEmotion: string;
 
   @Column({ length: 255, nullable: false })
   description: string;
@@ -41,5 +41,5 @@ export class TranscendentalRecord {
   deleted_at: Date;
 
   @ManyToOne(() => User, (user) => user.transcendentalRecords)
-  user_id: number;
+  user: User;
 }

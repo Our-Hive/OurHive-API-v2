@@ -1,32 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsPositive,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateDailyRecordDto {
   @ApiProperty({
-    example: 'happy',
+    example: 'Sad',
     required: true,
     description: 'Daily user emotion',
   })
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  emotion: string;
+  primaryEmotion: string;
 
   @ApiProperty({
-    example: 'My first daily record',
+    example: 'Lonely',
     required: true,
-    description: 'Daily record title',
+    description: 'The second emotion associated with the record',
   })
-  @IsString()
   @IsNotEmpty()
-  @MinLength(3)
-  title: string;
+  @IsString()
+  secondaryEmotion: string;
 
   @ApiProperty({
     example: 'Today I feel happy because I passed my exam',
@@ -37,14 +30,4 @@ export class CreateDailyRecordDto {
   @IsNotEmpty()
   @MinLength(8)
   description: string;
-
-  @ApiProperty({
-    example: 1,
-    required: true,
-    description: 'User id',
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
-  user_id: number;
 }
